@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:orientation="horizontal"
+                
+        >
+   	 	<TextView 
+   	 	    android:layout_width="0px"
+   	 	    android:layout_height="fill_parent"
+   	 	    android:layout_weight="1"
+   	 	    android:text="id"
+   	 	    />
+    	<EditText
+    	    android:id="@+id/txId" 
+    	    android:layout_width="0px"    	    
+    	    android:layout_height="fill_parent"
+    	    android:layout_weight="4"    	        	    
+    	    />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        
+        android:orientation="horizontal"
+        >
+    	<TextView  
+    	    android:layout_width="0px"
+   	 	    android:layout_height="fill_parent"
+   	 	    android:layout_weight="1"
+   	 	    android:text="pass"
+   	 	    />
+    	<EditText
+    	    android:id="@+id/txPass" 
+    	    android:layout_width="0px"
+    	    android:layout_height="fill_parent"  
+    	    android:layout_weight="4"  	        	    
+    	    />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btLogin"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:text="Log In" 
+            android:onClick="OnClickMethod"
+            				
+            />
+        
+         <Button
+            android:id="@+id/btGoRegist"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:text="Regist"
+            android:onClick="OnClickMethod" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,135 @@
+package com.example.chatting_client;
+
+import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class Chatting extends Activity{
+	private final static String BR = // 改行
+			System.getProperty("line.separator");
+	private final static String IP = // IPアドレスの指定
+			"192.168.1.113";//
+	private final static int PORT = 6001;
+	Chatting mainac;
+
+	Button btSend;
+	TextView mainText;
+	EditText txSend;
+	Socket socket;
+	InputStream in;
+	OutputStream out;
+	
+	private final Handler handler = new Handler();
+	private String txtReceive;
+	
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		mainac=this;
+		btSend = (Button)findViewById(R.id.btSend);
+		btSend.setText("送信");
+		mainText = (TextView)findViewById(R.id.maintext);
+		txSend = (EditText)findViewById(R.id.txSend);
+		ClickListener cl = new ClickListener();
+		btSend.setOnClickListener(cl);
+		
+		Thread clientThread = new Thread(){
+			public void run(){
+				try {
+					connect(IP,PORT);
+				} catch (Exception e) {
+				
+				}
+			}
+		};
+		clientThread.start();
+	}	
+	// 接続
+	private void connect(String ip, int port)	{
+		int size;
+		byte[] w = new byte[10240];
+		txtReceive = "";
+		try {
+			socket = new Socket(ip,port);
+			in = socket.getInputStream();
+			out = socket.getOutputStream();
+			
+			while(socket != null && socket.isConnected())
+			{
+				size = in.read(w);
+				if(size <= 0)		
+					continue;					
+					txtReceive = new String(w, 0, size, "UTF-8");
+					
+					handler.post(new Runnable(){
+						public void run(){							
+							mainText.setText(mainText.getText() + txtReceive + BR);						
+							}
+					});
+				}
+						
+		} catch (Exception e) {
+			handler.post(new Runnable(){
+				public void run(){
+					Chatting.showDialog(mainac, "", "通信エラーです1");
+				}
+			});
+		}
+	}
+	class ClickListener implements Button.OnClickListener{
+
+		@Override
+		public void onClick(View v) {
+			try {
+				
+			if(v == btSend)
+			{
+				if(socket != null && socket.isConnected())
+				{
+					PrintWriter out = new PrintWriter(new BufferedWriter(
+						new OutputStreamWriter(socket.getOutputStream())),
+						true);		
+					out.println(mainText.getText().toString());
+					out.flush();
+					mainText.setText("", TextView.BufferType.NORMAL);
+				}
+			}
+			} catch (Exception e) {
+				handler.post(new Runnable(){
+					public void run(){
+						Chatting.showDialog(mainac,"","通信エラーです2");
+					}
+				});
+			}
+		}				
+	}
+	public static void showDialog(final Activity activity, String title, String text)
+	{
+		AlertDialog.Builder ad = new AlertDialog.Builder(activity);
+		ad.setTitle(title);
+		ad.setMessage(text);
+		ad.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				activity.setResult(Activity.RESULT_OK);				
+			}
+		});
+		ad.create();
+		ad.show();
+	}	
+}
