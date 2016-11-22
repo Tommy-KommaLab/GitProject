@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.komma.simplechatting.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:orientation="horizontal"
+
+        >
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:text="ID"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            />
+        <EditText
+            android:id="@+id/txId"
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:text="PW"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            />
+        <EditText
+            android:id="@+id/txPass"
+            android:layout_width="0px"
+            android:layout_height="fill_parent"
+            android:layout_weight="4"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btLogin"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:text="Log In"
+            android:onClick="OnClickMethod"
+
+            />
+
+        <Button
+            android:id="@+id/btGoRegist"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:text="SIGN UP"
+            android:onClick="OnClickMethod" />
+    </LinearLayout>
+
+</LinearLayout>
