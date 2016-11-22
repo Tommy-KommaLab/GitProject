@@ -9,8 +9,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
+        android:layout_height="50dp"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
 
         >
         <TextView
@@ -27,14 +28,15 @@
             android:layout_width="0px"
             android:layout_height="fill_parent"
             android:layout_weight="4"
+            android:textSize="20dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
-
+        android:layout_height="50dp"
         android:orientation="horizontal"
+        android:layout_marginTop="5dp"
         >
         <TextView
             android:layout_width="0px"
@@ -50,30 +52,30 @@
             android:layout_width="0px"
             android:layout_height="fill_parent"
             android:layout_weight="4"
+            android:textSize="20dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200px"
-
+        android:layout_height="150dp"
         android:orientation="vertical" >
 
         <Button
             android:id="@+id/btLogin"
             android:layout_width="match_parent"
-            android:layout_height="100px"
+            android:layout_height="50dp"
             android:text="Log In"
-            android:onClick="OnClickMethod"
+
 
             />
 
         <Button
             android:id="@+id/btGoRegist"
             android:layout_width="match_parent"
-            android:layout_height="100px"
+            android:layout_height="50dp"
             android:text="SIGN UP"
-            android:onClick="OnClickMethod" />
+             />
     </LinearLayout>
 
 </LinearLayout>

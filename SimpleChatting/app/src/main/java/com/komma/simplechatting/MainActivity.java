@@ -74,17 +74,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String nick = "";
 
         try {
-            JSONArray ja = new JSONArray(data);
-            JSONObject order = ja.getJSONObject(0);
-            if(order.getString("flag").equals("1"))
-            {
 
+            JSONArray ja = new JSONArray(data);
+            if(ja.length()>0) {
+                for(int i=0; i<ja.length(); i++) {
+                    JSONObject order = ja.getJSONObject(i);
+
+                    if(order.getString("idMEMB").equals(id) && order.getString("pwMEMB").equals(pw)) {
+                        nick = order.getString("nickMEMB");
+                        break;
+                    }
+                }
             }
-            else
-            {
+
+            if(nick.equals("")){
                 Toast.makeText(MainActivity.this, "Wrong ID or PassWord",
                         Toast.LENGTH_SHORT).show();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case LOGIN_SUCCESS :
                     nickName = getNickName(msg.obj.toString());
-                    if(nickName != null && nickName.length()>1)
+                    if(!nickName.equals(""))
                         goFriendActivity();
 
                     break;
