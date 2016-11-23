@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void goFriendActivity() {
         Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
-        intent.putExtra("id", nickName);
+        intent.putExtra("NICKNAME", nickName);
+        intent.putExtra("ID", id);
         startActivity(intent);
         finish();
     }

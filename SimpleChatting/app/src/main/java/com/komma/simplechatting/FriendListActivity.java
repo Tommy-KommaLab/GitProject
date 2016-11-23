@@ -1,5 +1,6 @@
 package com.komma.simplechatting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,10 +31,12 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
     Button   btSearchFriendId;
 
     ArrayList<String> listId = null;
-    String id = null;
-    String friendNick = null;
+    String myId = null;
+    String myNickName = null;
+    String friendInfo = null;
 
     SendMessageHandler handler;
+    CheckFriendThread checkFriend;
 
 
     @Override
@@ -50,6 +53,13 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
 
         handler = new SendMessageHandler();
 
+        Intent intent = getIntent();
+        myId = intent.getExtras().getString("ID");
+        myNickName = intent.getExtras().getString("NICKNAME");
+
+
+        checkFriend = new CheckFriendThread();
+        checkFriend.start();
 
     }
 
@@ -71,6 +81,7 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
             switch (msg.what) {
                 case RECIVE_FRIENDNICK_SUCCESS :
 
+                    
 
                     break;
                 case RECIVE_FRIENDNICK_FAIL :
@@ -89,7 +100,7 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
             try{
 
                 HttpURLConnection conn = (HttpURLConnection) new URL(
-                        SERVERDNS + "/chatting/allFriendSelect.php?id=" + id).openConnection();
+                        SERVERDNS + "/chatting/allFriendSelect.php?id=" + myId).openConnection();
 
                 if(conn != null){
                     conn.setConnectTimeout(10000);
@@ -103,8 +114,28 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
                             return;
 
 
-                        
+                        html.append(line + '\n');
 
+                        while(true) {
+                            line = br.readLine();
+                            if(line == null) {
+                                break;
+                            }
+                            html.append(line + '\n');
+                        }
+                        br.close();
+
+                    }
+                    conn.disconnect();
+                    friendInfo = html.toString();
+
+                    Message msg = handler.obtainMessage();
+
+                    if(friendInfo.length() > 0){
+                        msg.what = RECIVE_FRIENDNICK_SUCCESS;
+                        msg.obj = friendInfo;
+                    } else {
+                        msg.what = RECIVE_FRIENDNICK_FAIL;
                     }
                 }
 
