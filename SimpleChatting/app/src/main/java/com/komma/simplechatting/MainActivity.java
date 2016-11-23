@@ -167,10 +167,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         msg.what = LOGIN_SUCCESS;
                         msg.obj = data;
 
-                        handler.sendMessage(msg);
+
                     } else {
                         msg.what = LOGIN_FAIL;
                     }
+                    handler.sendMessage(msg);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
