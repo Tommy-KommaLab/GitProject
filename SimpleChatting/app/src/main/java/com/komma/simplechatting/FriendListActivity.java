@@ -34,12 +34,13 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
     private static final int RECIVE_FRIENDNICK_FAIL = 4;        //DB로부터 친구 정보 수신 못한 경우
 
     ListView listView;
-    EditText friendId;
+    EditText editTextfriendId;
     Button   btSearchFriendId;
 
     ArrayList<String> listId = null;
     String myId = null;
     String myNickName = null;
+    String friendId = null;
 
     SendMessageHandler handler;
     CheckFriendThread checkFriend;
@@ -55,7 +56,7 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
-        friendId = (EditText)findViewById(R.id.txFriend);
+        editTextfriendId = (EditText)findViewById(R.id.txFriend);
         listId = new ArrayList<>();
         listView = (ListView)findViewById(R.id.list);
         listView.setAdapter(new MyAdapter());
@@ -79,11 +80,19 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch(view.getId()) {
             case R.id.btSearch:
-
+                intent = new Intent(FriendListActivity.this, ChattingActivity.class);
+                intent.putExtra("ID", myId);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.btFriendid:
+                intent = new Intent(FriendListActivity.this, ChattingActivity.class);
+                intent.putExtra("FRIENDID", friendId);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -230,6 +239,7 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
 
             holder.tvFriendId.setText(listId.get(position));
             holder.btFriendId.setText(listId.get(position));
+            friendId = listId.get(position);
 
             return convertView;
         }
