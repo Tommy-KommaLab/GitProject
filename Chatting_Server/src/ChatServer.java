@@ -4,29 +4,29 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-//ƒ`ƒƒƒbƒgƒT[ƒo
+//ãƒãƒ£ãƒƒãƒˆã‚µãƒ¼ãƒ
 public class ChatServer {
 
-	// ƒƒCƒ“
+	// ãƒ¡ã‚¤ãƒ³
 	public static void main(String[] args) {
 		ChatServer server = new ChatServer();
-		server.start(6001);		
+		server.start(10001);		
 	}
-	// ŠJn
+	// é–‹å§‹
 	public void start(int port) {
-		ServerSocket server;// ƒT[ƒoƒ\ƒPƒbƒg
-		Socket socket;// ƒ\ƒPƒbƒg
-		ChatServerThread thread;// ƒXƒŒƒbƒh
+		ServerSocket server;// ã‚µãƒ¼ãƒã‚½ã‚±ãƒƒãƒˆ
+		Socket socket;// ã‚½ã‚±ãƒƒãƒˆ
+		ChatServerThread thread;// ã‚¹ãƒ¬ãƒƒãƒ‰
 		
 		try {
 			server = new ServerSocket(port);
-			System.out.println("ƒ`ƒƒƒbƒgƒT[ƒoÀsŠJn:" + port);
+			System.out.println("ãƒãƒ£ãƒƒãƒˆã‚µãƒ¼ãƒå®Ÿè¡Œé–‹å§‹:" + port);
 			while (true) {
 				try {
-					// Ú‘±‘Ò‹@
+					// æ¥ç¶šå¾…æ©Ÿ
 					socket = server.accept();
 
-					// ƒ`ƒƒƒbƒgƒT[ƒoƒXƒŒƒbƒhŠJn
+					// ãƒãƒ£ãƒƒãƒˆã‚µãƒ¼ãƒã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹
 					thread = new ChatServerThread(socket);
 					thread.start();
 				} catch (IOException e) {

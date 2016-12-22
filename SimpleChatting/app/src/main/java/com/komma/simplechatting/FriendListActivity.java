@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class FriendListActivity extends AppCompatActivity implements View.OnClickListener{
+public class FriendListActivity extends AppCompatActivity implements View.OnClickListener, FriendListAdapter.ListBtnClickListener{
 
     //AWS Tommy Server Public DNS
     private static final String SERVERDNS = "http://ec2-52-78-81-140.ap-northeast-2.compute.amazonaws.com";
@@ -34,16 +32,20 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
     private static final int RECIVE_FRIENDNICK_FAIL = 4;        //DB로부터 친구 정보 수신 못한 경우
 
     ListView listView;
+    FriendListAdapter adapter;
+
     EditText editTextfriendId;
     Button   btSearchFriendId;
 
     ArrayList<String> listId = null;
     String myId = null;
     String myNickName = null;
-    String friendId = null;
+    //String friendId = null;
 
     SendMessageHandler handler;
     CheckFriendThread checkFriend;
+
+
 
     static class ViewHolder {
         TextView    tvFriendId;
@@ -59,10 +61,21 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
         editTextfriendId = (EditText)findViewById(R.id.txFriend);
         listId = new ArrayList<>();
         listView = (ListView)findViewById(R.id.list);
-        listView.setAdapter(new MyAdapter());
+        //listView.setAdapter(new MyAdapter());
+
+        adapter = new FriendListAdapter(this, R.layout.list_friendid, listId, this);
+        listView.setAdapter(adapter);
+
+        //listView Click Event 핸들러 정의
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
 
         btSearchFriendId = (Button)findViewById(R.id.btSearch);
-
         btSearchFriendId.setOnClickListener(this);
 
         handler = new SendMessageHandler();
@@ -88,13 +101,19 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.btFriendid:
-                intent = new Intent(FriendListActivity.this, ChattingActivity.class);
-                intent.putExtra("FRIENDID", friendId);
-                startActivity(intent);
-                finish();
-                break;
+
         }
+    }
+
+    @Override
+    public void onListBtnClick(String friendId) {
+
+        Intent intent = new Intent(FriendListActivity.this, ChattingActivity.class);
+        intent.putExtra("ID", myId);
+        intent.putExtra("FRIENDID", friendId);
+        startActivity(intent);
+        finish();
+
     }
 
     //Server 에서 Json 으로 수신한 친구 id 를 list 로 전환
@@ -136,6 +155,9 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
                     //사용자의 친구 정보를 제대로 수신 했다면,
                     //List 를 갱신한다.
                     listId = getFriendIdList(msg.obj.toString());
+                    //listView.invalidate();
+                    adapter.setListId(listId);
+                    adapter.notifyDataSetChanged();
 
                     break;
                 case RECIVE_FRIENDNICK_FAIL :
@@ -203,7 +225,8 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private class MyAdapter extends BaseAdapter {
+    /*
+    public class MyAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -246,4 +269,5 @@ public class FriendListActivity extends AppCompatActivity implements View.OnClic
 
 
     }
+    */
 }

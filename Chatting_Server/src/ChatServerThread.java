@@ -2,36 +2,36 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-//ƒ`ƒƒƒbƒgƒT[ƒoƒXƒŒƒbƒh
+//ãƒãƒ£ãƒƒãƒˆã‚µãƒ¼ãƒã‚¹ãƒ¬ãƒƒãƒ‰
 public class ChatServerThread extends Thread {
-	private static List<ChatServerThread> threads = new ArrayList<ChatServerThread>();// ƒXƒŒƒbƒhŒS
-	private Socket socket;// ƒ\ƒPƒbƒg
+	private static List<ChatServerThread> threads = new ArrayList<ChatServerThread>();// ã‚¹ãƒ¬ãƒƒãƒ‰éƒ¡
+	private Socket socket;// ã‚½ã‚±ãƒƒãƒˆ
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public ChatServerThread(Socket socket) {
 		super();
 		this.socket = socket;
 		threads.add(this);		
 	}
-	// ˆ—
+	// å‡¦ç†
 	public void run() {
 		InputStream in = null;
 		String message;
 		int size;
 		byte[] w = new byte[10240];
 		try {
-			// ƒXƒgƒŠ[ƒ€
+			// ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 			in = socket.getInputStream();
 			while (true) {
 				try {
-					// ŽóM‘Ò‚¿
+					// å—ä¿¡å¾…ã¡
 					size = in.read(w);
-					// Ø’f
+					// åˆ‡æ–­
 					if (size <= 0)
 						throw new IOException();
-					// “Ç‚Ýž‚Ý
+					// èª­ã¿è¾¼ã¿
 					message = new String(w, 0, size, "UTF8");
-					// ‘Sˆõ‚ÉƒƒbƒZ[ƒW‘—M
+					// å…¨å“¡ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡
 					sendMessageAll(message);
 				} catch (IOException e) {
 					socket.close();
@@ -44,7 +44,7 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	// ‘Sˆõ‚ÉƒƒbƒZ[ƒW‘—M
+	// å…¨å“¡ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡
 	public void sendMessageAll(String message) {
 		ChatServerThread thread;
 		for (int i = 0; i < threads.size(); i++) {
@@ -54,7 +54,7 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	// ƒƒbƒZ[ƒW‘—M
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡
 	public void sendMessage(ChatServerThread talker, String message) {
 		try {
 			PrintWriter out = new PrintWriter(new BufferedWriter(
