@@ -13,8 +13,29 @@
     tools:context="com.komma.firebasechatting.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chatlist"
+        android:layout_above="@+id/inputtext"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/inputtext"
+        android:textSize="15dp"
+        android:text="input text"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:id="@+id/sendbtn"
+        android:layout_alignRight="@+id/inputtext"
+        android:layout_alignParentBottom="true"
+        android:text="SEND"
+        android:onClick="onSend"/>
+
+
 </RelativeLayout>
